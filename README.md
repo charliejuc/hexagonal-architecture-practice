@@ -1,7 +1,9 @@
 # Typescript prettier-standard template
+
 A simple template to initiate writing typescript code with linter and basic build commands.
 
 Dependecies Installation:
+
 ```bash
 yarn install
 
@@ -11,6 +13,7 @@ npm install
 ```
 
 Available commands(package.json):
+
 ```JSON
 "scripts": {
     "build": "npm-run-all clean tsc",
