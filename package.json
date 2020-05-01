@@ -1,0 +1,36 @@
+{
+  "name": "application",
+  "version": "0.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "author": "",
+  "license": "UNLICENSED",
+  "engines": {
+    "node": ""
+  },
+  "scripts": {
+    "build": "npm-run-all clean tsc",
+    "dev": "npm-run-all build --parallel tsc:watch nodemon",
+    "lint": "prettier-standard --lint",
+    "test": "npm-run-all lint",
+    "tsc": "tsc",
+    "tsc:watch": "tsc --watch",
+    "clean": "rimraf dist",
+    "format": "prettier-standard --format",
+    "nodemon": "nodemon --watch dist",
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "source-map-support": "^0.5.16"
+  },
+  "devDependencies": {
+    "@types/node": "^13.7.7",
+    "@typescript-eslint/eslint-plugin": "^2.22.0",
+    "@typescript-eslint/parser": "^2.22.0",
+    "nodemon": "^2.0.2",
+    "npm-run-all": "^4.1.5",
+    "prettier-standard": "^16.3.0",
+    "rimraf": "^3.0.2",
+    "typescript": "~3.8.3"
+  }
+}
