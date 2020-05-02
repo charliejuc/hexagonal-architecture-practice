@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "@types/uuid": "^7.0.3",
+    "argon2": "^0.26.2",
     "source-map-support": "^0.5.16",
     "uuid": "^8.0.0"
   },
