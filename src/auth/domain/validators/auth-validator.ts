@@ -1,9 +1,7 @@
 import { AuthObject } from '../interfaces/auth-object'
-import { EntityValidator } from '../interfaces/entity-validator'
 
-// TODO base class for validator
-export class AuthValidator implements EntityValidator {
-  private _errors: object | null = null
+export class AuthValidator {
+  private _errors: null | { [key: string]: string } = null
   private requiredFields: [string, Function][] = [
     ['id', String],
     ['username', String],
@@ -11,7 +9,7 @@ export class AuthValidator implements EntityValidator {
     ['password', String]
   ]
 
-  validate (authObj: { [property: string]: any }) {
+  validate (authObj: AuthObject) {
     let isValid = true
     const errors: {
       [key: string]: string
@@ -19,13 +17,13 @@ export class AuthValidator implements EntityValidator {
 
     for (let [field, type] of this.requiredFields) {
       if (!authObj[field]) {
-        isValid = true
+        isValid = false
         errors[field] = `'${field}' is required`
         continue
       }
 
       if (typeof type() !== typeof authObj[field]) {
-        isValid = true
+        isValid = false
         errors[field] = `Invalid value '${authObj[field]}' for '${field}' field`
         continue
       }
@@ -36,7 +34,7 @@ export class AuthValidator implements EntityValidator {
     return isValid
   }
 
-  errors (): null | object {
+  errors () {
     return this._errors
   }
 }

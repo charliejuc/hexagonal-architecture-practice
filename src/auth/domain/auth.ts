@@ -1,6 +1,6 @@
 import { AuthObject } from './interfaces/auth-object'
-import { EntityValidator } from './interfaces/entity-validator'
 import { PasswordHasher } from './interfaces/password-hasher'
+import { AuthValidator } from './validators/auth-validator'
 
 export class Auth {
   private _username: string
@@ -8,16 +8,16 @@ export class Auth {
   private _email: string
   private _password: string
   private passwordHasher: PasswordHasher
-  private entityValidator: EntityValidator
+  private validator: AuthValidator
   private _hashed: boolean = false
 
   constructor (
     authObj: AuthObject,
     passwordHasher: PasswordHasher,
-    entityValidator: EntityValidator
+    validator: AuthValidator
   ) {
     this.passwordHasher = passwordHasher
-    this.entityValidator = entityValidator
+    this.validator = validator
 
     this._id = authObj.id
     this._username = authObj.username
@@ -37,11 +37,11 @@ export class Auth {
       )
     }
 
-    return this.entityValidator.validate(this.toJSON())
+    return this.validator.validate(this.toJSON())
   }
 
   public errors () {
-    return this.entityValidator.errors()
+    return this.validator.errors()
   }
 
   public toJSON (): AuthObject {
