@@ -1,5 +1,5 @@
 import { AuthObject } from '@/auth/domain/interfaces/auth-object'
-import { IEntityGenerator } from '@/tests/utils/interfaces/i-entity-generator'
+import { IEntityGenerator } from '@/../tests/utils/interfaces/i-entity-generator'
 import faker from 'faker'
 import { v4 as uuidv4 } from 'uuid'
 
