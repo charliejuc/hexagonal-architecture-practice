@@ -1,13 +1,8 @@
 import { Auth } from '@/auth/domain/auth'
-import { ArgonPaswordHasher as PaswordHasher } from '@/auth/domain/password-hashers/argon-password-hasher'
-import { ArgonPaswordVerifier as PaswordVerifier } from '@/auth/domain/password-hashers/argon-password-verifier'
-import { AuthValidator } from '@/auth/domain/validators/auth-validator'
-import { AuthGeneratorFaker as AuthGenerator } from './generator/auth-generator-faker'
+import { AuthMock } from './auth-mock'
 
-const authGenerator = new AuthGenerator()
-const passwordHasher = new PaswordHasher()
-const passwordVerifier = new PaswordVerifier()
-const authValidator = new AuthValidator()
+const passwordVerifier = AuthMock.PasswordVerifier()
+const authGenerator = AuthMock.AuthGenerator()
 
 test('Auth object exists', () => {
   expect(Auth).toBeTruthy()
@@ -16,7 +11,7 @@ test('Auth object exists', () => {
 test('should create valid Auth instance', async () => {
   const authObjInstance = authGenerator.getInstance()
 
-  const authInstance = new Auth(authObjInstance, passwordHasher, authValidator)
+  const authInstance = AuthMock.Auth(authObjInstance)
 
   expect(authObjInstance.id).toBe(authInstance.id)
   expect(authObjInstance.username).toBe(authInstance.username)
@@ -52,12 +47,8 @@ describe('should fail', () => {
   test('creating Auth instance - empty object', async () => {
     const authObjInstance = {}
 
-    const authInstance = new Auth(
-      // @ts-ignore
-      authObjInstance,
-      passwordHasher,
-      authValidator
-    )
+    // @ts-ignore
+    const authInstance = AuthMock.Auth(authObjInstance)
 
     expect(authInstance.id).toBeFalsy()
     expect(authInstance.username).toBeFalsy()
@@ -89,11 +80,7 @@ describe('should fail', () => {
       delete authObjInstance[field]
 
       // @ts-ignore
-      const authInstance = new Auth(
-        authObjInstance,
-        passwordHasher,
-        authValidator
-      )
+      const authInstance = AuthMock.Auth(authObjInstance)
 
       let err
       try {
