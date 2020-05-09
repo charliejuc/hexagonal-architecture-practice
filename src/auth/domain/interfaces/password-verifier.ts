@@ -1,3 +1,3 @@
 export interface PasswordVerifier {
-  verify(hash: string, password: string): Promise<boolean>
+  verify(hash: string, password: string): Promise<boolean>;
 }

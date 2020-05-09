@@ -1,3 +1,3 @@
 export interface IEntityGenerator {
-  getInstance: Function
+  getInstance: Function;
 }
