@@ -10,6 +10,7 @@ export class Auth {
   private passwordHasher: PasswordHasher
   private validator: AuthValidator
   private _hashed: boolean = false
+  private _plainPassword: string
 
   constructor (
     authObj: AuthObject,
@@ -23,6 +24,7 @@ export class Auth {
     this._username = authObj.username
     this._email = authObj.email
     this._password = authObj.password
+    this._plainPassword = authObj.password
   }
 
   public async hashPassword () {
@@ -37,7 +39,11 @@ export class Auth {
       )
     }
 
-    return this.validator.validate(this.toJSON())
+    const jsonObj = this.toJSON()
+
+    jsonObj.plainPassword = this._plainPassword
+
+    return this.validator.validate(jsonObj)
   }
 
   public errors () {

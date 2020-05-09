@@ -4,4 +4,5 @@ export interface AuthObject {
   username: string
   email: string
   password: string
+  plainPassword?: string
 }
