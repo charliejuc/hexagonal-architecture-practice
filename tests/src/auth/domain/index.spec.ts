@@ -52,8 +52,8 @@ describe('should fail', () => {
   test('creating Auth instance - empty object', async () => {
     const authObjInstance = {}
 
-    // @ts-ignore
     const authInstance = new Auth(
+      // @ts-ignore
       authObjInstance,
       passwordHasher,
       authValidator
@@ -119,7 +119,7 @@ describe('should fail', () => {
       expect(validationErrors).toBeTruthy()
       expect(validationErrors && Object.keys(validationErrors).length).toBe(1)
 
-      if ( field !== lastField ) {
+      if (field !== lastField) {
         authObjInstance = authGenerator.getInstance()
       }
     }
