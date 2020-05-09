@@ -6,8 +6,14 @@ import { AuthValidator } from '@/auth/domain/validators/auth-validator'
 import { AuthGeneratorFaker as AuthGenerator } from './generator/auth-generator-faker'
 
 export class AuthMock {
-  public static Auth(authObjInstance: AuthObject) {
-    return new Auth(authObjInstance, this.PasswordHasher(), this.AuthValidator())
+  public static authFields: string[] = ['id', 'username', 'email', 'password']
+
+  public static Auth (authObjInstance: AuthObject) {
+    return new Auth(
+      authObjInstance,
+      this.PasswordHasher(),
+      this.AuthValidator()
+    )
   }
 
   public static AuthGenerator () {
