@@ -1,5 +1,6 @@
 import { Auth } from "@/auth/domain/auth";
 import { AuthMock } from "./auth-mock";
+import { AuthPasswordHashingRequired } from "@/auth/domain/exceptions/auth-password-hashing-required";
 
 const passwordVerifier = AuthMock.PasswordVerifier();
 const authGenerator = AuthMock.AuthGenerator();
@@ -56,6 +57,7 @@ describe("should create valid Auth instance", () => {
       err = e;
     }
 
+    expect(err).toBeFalsy();
     expect(isValid).toBe(true);
   });
 });
@@ -154,7 +156,7 @@ describe("should fail", () => {
         }
 
         expect(err).toBeTruthy();
-        expect(err && err.message).toMatch("hashPassword");
+        expect(err).toBeInstanceOf(AuthPasswordHashingRequired);
         expect(isValid).toBeFalsy();
       });
 

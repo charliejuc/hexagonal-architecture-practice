@@ -1,4 +1,5 @@
 import { AuthObject } from "../interfaces/auth-object";
+import { AuthPasswordHashingRequired } from "../exceptions/auth-password-hashing-required";
 
 export class AuthValidator {
   private _errors: null | { [key: string]: string } = null;
@@ -10,6 +11,10 @@ export class AuthValidator {
   ];
 
   validate(authObj: AuthObject) {
+    if (authObj.password === authObj.plainPassword) {
+      throw new AuthPasswordHashingRequired();
+    }
+
     let isValid = true;
     const errors: {
       [key: string]: string;

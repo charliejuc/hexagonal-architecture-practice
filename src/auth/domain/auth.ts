@@ -6,11 +6,10 @@ export class Auth {
   private _username: string;
   private _id: string;
   private _email: string;
-  private _password: string;
+  private _password: string = "";
   private passwordHasher: PasswordHasher;
   private validator: AuthValidator;
-  private _hashed: boolean = false;
-  private _plainPassword: string;
+  private _plainPassword: string = "";
 
   constructor(
     authObj: AuthObject,
@@ -23,22 +22,14 @@ export class Auth {
     this._id = authObj.id;
     this._username = authObj.username;
     this._email = authObj.email;
-    this._password = authObj.password;
-    this._plainPassword = authObj.password;
+    this.password = authObj.password;
   }
 
   public async hashPassword() {
     this._password = await this.passwordHasher.hash(this._password);
-    this._hashed = true;
   }
 
   public validate() {
-    if (!this._hashed) {
-      throw new Error(
-        "'hashPassword()' method should be executed before calling 'validate()'"
-      );
-    }
-
     const jsonObj = this.toJSON();
 
     jsonObj.plainPassword = this._plainPassword;
@@ -88,6 +79,7 @@ export class Auth {
   }
 
   public set password(value: string) {
+    this._plainPassword = value;
     this._password = value;
   }
 }
