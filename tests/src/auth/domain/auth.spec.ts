@@ -5,8 +5,12 @@ import { AuthPasswordHashingRequired } from "@/auth/domain/exceptions/auth-passw
 const passwordVerifier = AuthMock.PasswordVerifier();
 const authGenerator = AuthMock.AuthGenerator();
 
-test("auth object should exist", () => {
+test("should existauth object", () => {
   expect(Auth).toBeTruthy();
+});
+
+test("should match AuthGenerator and AuthMock authFields", () => {
+  expect(Object.keys(authGenerator.getInstance())).toEqual(AuthMock.authFields);
 });
 
 describe("should create valid Auth instance", () => {
@@ -116,7 +120,7 @@ describe("should fail", () => {
           expect(isValid).toBeFalsy();
         });
 
-        test("should have validationErrors", () => {
+        test("should have validationErrors length of 1", () => {
           let validationErrors = authInstance.errors();
 
           expect(validationErrors).toBeTruthy();
@@ -168,5 +172,215 @@ describe("should fail", () => {
     });
   });
 
-  describe("validate - invalid field", () => {});
+  describe("validate - invalid field", () => {
+    const authObjInstance = authGenerator.getInstance();
+
+    describe('invalid "id" value', () => {
+      const _authObjInstance = Object.assign({}, authObjInstance);
+
+      describe('undefined "id"', () => {
+        // @ts-ignore
+        _authObjInstance.id = undefined;
+
+        const authInstance = AuthMock.Auth(_authObjInstance);
+
+        test("validate() should be false ", async () => {
+          await authInstance.hashPassword();
+
+          expect(authInstance.validate()).toBe(false);
+        });
+
+        test("should have validationErrors length of 1", () => {
+          const validationErrors = authInstance.errors();
+
+          expect(validationErrors).toBeTruthy();
+          expect(Object.keys(validationErrors || []).length).toBe(1);
+        });
+      });
+
+      describe('empty string ("") "id"', () => {
+        // @ts-ignore
+        _authObjInstance.id = "";
+
+        const authInstance = AuthMock.Auth(_authObjInstance);
+
+        test("validate() should be false ", async () => {
+          await authInstance.hashPassword();
+
+          expect(authInstance.validate()).toBe(false);
+        });
+
+        test("should have validationErrors length of 1", () => {
+          const validationErrors = authInstance.errors();
+
+          expect(validationErrors).toBeTruthy();
+          expect(Object.keys(validationErrors || []).length).toBe(1);
+        });
+      });
+
+      describe('literal object ({}) "id"', () => {
+        // @ts-ignore
+        _authObjInstance.id = {};
+
+        const authInstance = AuthMock.Auth(_authObjInstance);
+
+        test("validate() should be false ", async () => {
+          await authInstance.hashPassword();
+
+          expect(authInstance.validate()).toBe(false);
+        });
+
+        test("should have validationErrors length of 1", () => {
+          const validationErrors = authInstance.errors();
+
+          expect(validationErrors).toBeTruthy();
+          expect(Object.keys(validationErrors || []).length).toBe(1);
+        });
+      });
+
+      describe('array ([]) "id"', () => {
+        // @ts-ignore
+        _authObjInstance.id = [];
+
+        const authInstance = AuthMock.Auth(_authObjInstance);
+
+        test("validate() should be false ", async () => {
+          await authInstance.hashPassword();
+
+          expect(authInstance.validate()).toBe(false);
+        });
+
+        test("should have validationErrors length of 1", () => {
+          const validationErrors = authInstance.errors();
+
+          expect(validationErrors).toBeTruthy();
+          expect(Object.keys(validationErrors || []).length).toBe(1);
+        });
+      });
+    });
+
+    describe('invalid "username" value', () => {
+      const _authObjInstance = Object.assign({}, authObjInstance);
+
+      describe('undefined "username"', () => {
+        // @ts-ignore
+        _authObjInstance.username = undefined;
+
+        const authInstance = AuthMock.Auth(_authObjInstance);
+
+        test("validate() should be false ", async () => {
+          await authInstance.hashPassword();
+
+          expect(authInstance.validate()).toBe(false);
+        });
+
+        test("should have validationErrors length of 1", () => {
+          const validationErrors = authInstance.errors();
+
+          expect(validationErrors).toBeTruthy();
+          expect(Object.keys(validationErrors || []).length).toBe(1);
+        });
+      });
+
+      describe('empty string ("") "username"', () => {
+        // @ts-ignore
+        _authObjInstance.username = "";
+
+        const authInstance = AuthMock.Auth(_authObjInstance);
+
+        test("validate() should be false ", async () => {
+          await authInstance.hashPassword();
+
+          expect(authInstance.validate()).toBe(false);
+        });
+
+        test("should have validationErrors length of 1", () => {
+          const validationErrors = authInstance.errors();
+
+          expect(validationErrors).toBeTruthy();
+          expect(Object.keys(validationErrors || []).length).toBe(1);
+        });
+      });
+
+      describe('literal object ({}) "username"', () => {
+        // @ts-ignore
+        _authObjInstance.username = {};
+
+        const authInstance = AuthMock.Auth(_authObjInstance);
+
+        test("validate() should be false ", async () => {
+          await authInstance.hashPassword();
+
+          expect(authInstance.validate()).toBe(false);
+        });
+
+        test("should have validationErrors length of 1", () => {
+          const validationErrors = authInstance.errors();
+
+          expect(validationErrors).toBeTruthy();
+          expect(Object.keys(validationErrors || []).length).toBe(1);
+        });
+      });
+
+      describe('array ([]) "username"', () => {
+        // @ts-ignore
+        _authObjInstance.username = [];
+
+        const authInstance = AuthMock.Auth(_authObjInstance);
+
+        test("validate() should be false ", async () => {
+          await authInstance.hashPassword();
+
+          expect(authInstance.validate()).toBe(false);
+        });
+
+        test("should have validationErrors length of 1", () => {
+          const validationErrors = authInstance.errors();
+
+          expect(validationErrors).toBeTruthy();
+          expect(Object.keys(validationErrors || []).length).toBe(1);
+        });
+      });
+
+      describe('"username" with spaces "Mike Graham"', () => {
+        // @ts-ignore
+        _authObjInstance.username = "Mike Graham";
+
+        const authInstance = AuthMock.Auth(_authObjInstance);
+
+        test("validate() should be false ", async () => {
+          await authInstance.hashPassword();
+
+          expect(authInstance.validate()).toBe(false);
+        });
+
+        test("should have validationErrors length of 1", () => {
+          const validationErrors = authInstance.errors();
+
+          expect(validationErrors).toBeTruthy();
+          expect(Object.keys(validationErrors || []).length).toBe(1);
+        });
+      });
+
+      describe('"username" with diacritics "Julián Fernández"', () => {
+        // @ts-ignore
+        _authObjInstance.username = "Julián_Fernández";
+
+        const authInstance = AuthMock.Auth(_authObjInstance);
+
+        test("validate() should be false ", async () => {
+          await authInstance.hashPassword();
+
+          expect(authInstance.validate()).toBe(false);
+        });
+
+        test("should have validationErrors length of 1", () => {
+          const validationErrors = authInstance.errors();
+
+          expect(validationErrors).toBeTruthy();
+          expect(Object.keys(validationErrors || []).length).toBe(1);
+        });
+      });
+    });
+  });
 });
