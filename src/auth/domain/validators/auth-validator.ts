@@ -1,7 +1,7 @@
-import { EmailValidator } from "@/auth/infraestructure/auth/lib/email-validator";
 import { AuthPasswordHashingRequired } from "../exceptions/auth-password-hashing-required";
 import { AuthObject } from "../interfaces/auth-object";
 import { ErrorsObject } from "../types/errors-object";
+import { PropertyValidator } from "../interfaces/property-validator";
 
 export class AuthValidator {
   [key: string]: any;
@@ -15,9 +15,9 @@ export class AuthValidator {
   private usernameRegexp: RegExp = /[^a-z^A-Z^0-9^\.^_]/;
   private minPasswordLength: number = 10;
   private maxPasswordLength: number = 200;
-  private emailValidator: EmailValidator;
+  private emailValidator: PropertyValidator;
 
-  constructor(emailValidator: EmailValidator) {
+  constructor(emailValidator: PropertyValidator) {
     this.emailValidator = emailValidator;
   }
 

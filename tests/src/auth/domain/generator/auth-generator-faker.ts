@@ -2,10 +2,11 @@ import { AuthObject } from "@/auth/domain/interfaces/auth-object";
 import { IEntityGenerator } from "@/../tests/utils/interfaces/i-entity-generator";
 import faker from "faker";
 import { v4 as uuidv4 } from "uuid";
+import { AuthMock } from "../auth-mock";
 
 export class AuthGeneratorFaker implements IEntityGenerator {
-  private minPasswordLen: number = 9;
-  private maxPasswordLen: number = 254;
+  private minPasswordLength: number = AuthMock.minPasswordLength;
+  private maxPasswordLength: number = AuthMock.maxPasswordLength;
 
   getInstance(): AuthObject {
     return {
@@ -13,8 +14,8 @@ export class AuthGeneratorFaker implements IEntityGenerator {
       username: faker.internet.userName(),
       email: faker.internet.email(),
       password: faker.internet.password(
-        Math.random() * (this.maxPasswordLen - this.minPasswordLen) +
-          this.minPasswordLen
+        Math.random() * (this.maxPasswordLength - this.minPasswordLength) +
+          this.minPasswordLength
       ),
     };
   }

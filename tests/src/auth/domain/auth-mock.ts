@@ -3,7 +3,7 @@ import { AuthObject } from "@/auth/domain/interfaces/auth-object";
 import { ArgonPaswordHasher as PaswordHasher } from "@/auth/domain/password-hashers/argon-password-hasher";
 import { ArgonPaswordVerifier as PaswordVerifier } from "@/auth/domain/password-hashers/argon-password-verifier";
 import { AuthValidator } from "@/auth/domain/validators/auth-validator";
-import { EmailValidator } from "@/auth/infraestructure/auth/lib/email-validator";
+import { EmailValidator } from "@/auth/infraestructure/lib/email-validator";
 import { AuthGeneratorFaker as AuthGenerator } from "./generator/auth-generator-faker";
 
 export class AuthMock {
