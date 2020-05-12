@@ -5,7 +5,7 @@ import { AuthPasswordHashingRequired } from "@/auth/domain/exceptions/auth-passw
 const passwordVerifier = AuthMock.PasswordVerifier();
 const authGenerator = AuthMock.AuthGenerator();
 
-test("should existauth object", () => {
+test("should exist auth object", () => {
   expect(Auth).toBeTruthy();
 });
 
@@ -105,23 +105,25 @@ describe("should fail", () => {
 
         const authInstance = AuthMock.Auth(authObjInstance);
 
-        test("validate() should fail with no exception", async () => {
+        let isValid: boolean = false;
+        let err: Error | null = null;
+        beforeAll(async () => {
           await authInstance.hashPassword();
 
-          let isValid: boolean = false;
-          let err: Error | null = null;
           try {
             isValid = authInstance.validate();
           } catch (e) {
             err = e;
           }
+        });
 
+        test("validate() should fail with no exception", async () => {
           expect(err).toBeFalsy();
           expect(isValid).toBeFalsy();
         });
 
         test("should have validationErrors length of 1", () => {
-          let validationErrors = authInstance.errors();
+          const validationErrors = authInstance.errors();
 
           expect(validationErrors).toBeTruthy();
           expect(validationErrors && Object.keys(validationErrors).length).toBe(
@@ -138,29 +140,30 @@ describe("should fail", () => {
 
       const authInstance = AuthMock.Auth(authObjInstance);
 
-      test("validate() should fail with exception", async () => {
-        let err: Error | null = null;
-
+      let isValid: boolean = false;
+      let validationError: Error | null = null;
+      let hashPasswordError: Error | null = null;
+      beforeAll(async () => {
         try {
           await authInstance.hashPassword();
         } catch (e) {
-          err = e;
+          hashPasswordError = e;
         }
 
-        expect(err).toBeTruthy();
-      });
-
-      test("should have no hashed password exception", () => {
-        let err: Error | null = null;
-        let isValid: boolean = false;
         try {
           isValid = authInstance.validate();
         } catch (e) {
-          err = e;
+          validationError = e;
         }
+      });
 
-        expect(err).toBeTruthy();
-        expect(err).toBeInstanceOf(AuthPasswordHashingRequired);
+      test("validate() should fail with exception", async () => {
+        expect(hashPasswordError).toBeTruthy();
+      });
+
+      test("should have no hashed password exception", () => {
+        expect(validationError).toBeTruthy();
+        expect(validationError).toBeInstanceOf(AuthPasswordHashingRequired);
         expect(isValid).toBeFalsy();
       });
 
@@ -175,23 +178,6 @@ describe("should fail", () => {
   describe("validate - invalid field", () => {
     const authObjInstance = authGenerator.getInstance();
 
-    async function validateShouldBeFalse(expect: Function, authInstance: Auth) {
-      await authInstance.hashPassword();
-
-      expect(authInstance.validate()).toBe(false);
-    }
-
-    function shouldHaveValidationErrorsWithSpecificLength(
-      expect: Function,
-      authInstance: Auth,
-      length: number
-    ) {
-      const validationErrors = authInstance.errors();
-
-      expect(validationErrors).toBeTruthy();
-      expect(Object.keys(validationErrors || []).length).toBe(length);
-    }
-
     describe('invalid "id" value', () => {
       const _authObjInstance = Object.assign({}, authObjInstance);
 
@@ -201,15 +187,23 @@ describe("should fail", () => {
 
         const authInstance = AuthMock.Auth(_authObjInstance);
 
+        let isValid: boolean = false;
+        beforeAll(async () => {
+          await authInstance.hashPassword();
+          isValid = authInstance.validate();
+        });
+
         test("validate() should be false ", async () => {
-          await validateShouldBeFalse(expect, authInstance);
+          expect(isValid).toBe(false);
         });
 
         test("should have validationErrors length of 1", () => {
           const validationErrorsLen = 1;
-          shouldHaveValidationErrorsWithSpecificLength(
-            expect,
-            authInstance,
+
+          const validationErrors = authInstance.errors();
+
+          expect(validationErrors).toBeTruthy();
+          expect(Object.keys(validationErrors || []).length).toBe(
             validationErrorsLen
           );
         });
@@ -221,15 +215,23 @@ describe("should fail", () => {
 
         const authInstance = AuthMock.Auth(_authObjInstance);
 
+        let isValid: boolean = false;
+        beforeAll(async () => {
+          await authInstance.hashPassword();
+          isValid = authInstance.validate();
+        });
+
         test("validate() should be false ", async () => {
-          await validateShouldBeFalse(expect, authInstance);
+          expect(isValid).toBe(false);
         });
 
         test("should have validationErrors length of 1", () => {
           const validationErrorsLen = 1;
-          shouldHaveValidationErrorsWithSpecificLength(
-            expect,
-            authInstance,
+
+          const validationErrors = authInstance.errors();
+
+          expect(validationErrors).toBeTruthy();
+          expect(Object.keys(validationErrors || []).length).toBe(
             validationErrorsLen
           );
         });
@@ -241,15 +243,23 @@ describe("should fail", () => {
 
         const authInstance = AuthMock.Auth(_authObjInstance);
 
+        let isValid: boolean = false;
+        beforeAll(async () => {
+          await authInstance.hashPassword();
+          isValid = authInstance.validate();
+        });
+
         test("validate() should be false ", async () => {
-          await validateShouldBeFalse(expect, authInstance);
+          expect(isValid).toBe(false);
         });
 
         test("should have validationErrors length of 1", () => {
           const validationErrorsLen = 1;
-          shouldHaveValidationErrorsWithSpecificLength(
-            expect,
-            authInstance,
+
+          const validationErrors = authInstance.errors();
+
+          expect(validationErrors).toBeTruthy();
+          expect(Object.keys(validationErrors || []).length).toBe(
             validationErrorsLen
           );
         });
@@ -261,15 +271,23 @@ describe("should fail", () => {
 
         const authInstance = AuthMock.Auth(_authObjInstance);
 
+        let isValid: boolean = false;
+        beforeAll(async () => {
+          await authInstance.hashPassword();
+          isValid = authInstance.validate();
+        });
+
         test("validate() should be false ", async () => {
-          await validateShouldBeFalse(expect, authInstance);
+          expect(isValid).toBe(false);
         });
 
         test("should have validationErrors length of 1", () => {
           const validationErrorsLen = 1;
-          shouldHaveValidationErrorsWithSpecificLength(
-            expect,
-            authInstance,
+
+          const validationErrors = authInstance.errors();
+
+          expect(validationErrors).toBeTruthy();
+          expect(Object.keys(validationErrors || []).length).toBe(
             validationErrorsLen
           );
         });
@@ -281,15 +299,23 @@ describe("should fail", () => {
 
         const authInstance = AuthMock.Auth(_authObjInstance);
 
+        let isValid: boolean = false;
+        beforeAll(async () => {
+          await authInstance.hashPassword();
+          isValid = authInstance.validate();
+        });
+
         test("validate() should be false ", async () => {
-          await validateShouldBeFalse(expect, authInstance);
+          expect(isValid).toBe(false);
         });
 
         test("should have validationErrors length of 1", () => {
           const validationErrorsLen = 1;
-          shouldHaveValidationErrorsWithSpecificLength(
-            expect,
-            authInstance,
+
+          const validationErrors = authInstance.errors();
+
+          expect(validationErrors).toBeTruthy();
+          expect(Object.keys(validationErrors || []).length).toBe(
             validationErrorsLen
           );
         });
@@ -305,15 +331,23 @@ describe("should fail", () => {
 
         const authInstance = AuthMock.Auth(_authObjInstance);
 
+        let isValid: boolean = false;
+        beforeAll(async () => {
+          await authInstance.hashPassword();
+          isValid = authInstance.validate();
+        });
+
         test("validate() should be false ", async () => {
-          await validateShouldBeFalse(expect, authInstance);
+          expect(isValid).toBe(false);
         });
 
         test("should have validationErrors length of 1", () => {
           const validationErrorsLen = 1;
-          shouldHaveValidationErrorsWithSpecificLength(
-            expect,
-            authInstance,
+
+          const validationErrors = authInstance.errors();
+
+          expect(validationErrors).toBeTruthy();
+          expect(Object.keys(validationErrors || []).length).toBe(
             validationErrorsLen
           );
         });
@@ -325,15 +359,23 @@ describe("should fail", () => {
 
         const authInstance = AuthMock.Auth(_authObjInstance);
 
+        let isValid: boolean = false;
+        beforeAll(async () => {
+          await authInstance.hashPassword();
+          isValid = authInstance.validate();
+        });
+
         test("validate() should be false ", async () => {
-          await validateShouldBeFalse(expect, authInstance);
+          expect(isValid).toBe(false);
         });
 
         test("should have validationErrors length of 1", () => {
           const validationErrorsLen = 1;
-          shouldHaveValidationErrorsWithSpecificLength(
-            expect,
-            authInstance,
+
+          const validationErrors = authInstance.errors();
+
+          expect(validationErrors).toBeTruthy();
+          expect(Object.keys(validationErrors || []).length).toBe(
             validationErrorsLen
           );
         });
@@ -345,15 +387,23 @@ describe("should fail", () => {
 
         const authInstance = AuthMock.Auth(_authObjInstance);
 
+        let isValid: boolean = false;
+        beforeAll(async () => {
+          await authInstance.hashPassword();
+          isValid = authInstance.validate();
+        });
+
         test("validate() should be false ", async () => {
-          await validateShouldBeFalse(expect, authInstance);
+          expect(isValid).toBe(false);
         });
 
         test("should have validationErrors length of 1", () => {
           const validationErrorsLen = 1;
-          shouldHaveValidationErrorsWithSpecificLength(
-            expect,
-            authInstance,
+
+          const validationErrors = authInstance.errors();
+
+          expect(validationErrors).toBeTruthy();
+          expect(Object.keys(validationErrors || []).length).toBe(
             validationErrorsLen
           );
         });
@@ -365,15 +415,23 @@ describe("should fail", () => {
 
         const authInstance = AuthMock.Auth(_authObjInstance);
 
+        let isValid: boolean = false;
+        beforeAll(async () => {
+          await authInstance.hashPassword();
+          isValid = authInstance.validate();
+        });
+
         test("validate() should be false ", async () => {
-          await validateShouldBeFalse(expect, authInstance);
+          expect(isValid).toBe(false);
         });
 
         test("should have validationErrors length of 1", () => {
           const validationErrorsLen = 1;
-          shouldHaveValidationErrorsWithSpecificLength(
-            expect,
-            authInstance,
+
+          const validationErrors = authInstance.errors();
+
+          expect(validationErrors).toBeTruthy();
+          expect(Object.keys(validationErrors || []).length).toBe(
             validationErrorsLen
           );
         });
@@ -385,15 +443,23 @@ describe("should fail", () => {
 
         const authInstance = AuthMock.Auth(_authObjInstance);
 
+        let isValid: boolean = false;
+        beforeAll(async () => {
+          await authInstance.hashPassword();
+          isValid = authInstance.validate();
+        });
+
         test("validate() should be false ", async () => {
-          await validateShouldBeFalse(expect, authInstance);
+          expect(isValid).toBe(false);
         });
 
         test("should have validationErrors length of 1", () => {
           const validationErrorsLen = 1;
-          shouldHaveValidationErrorsWithSpecificLength(
-            expect,
-            authInstance,
+
+          const validationErrors = authInstance.errors();
+
+          expect(validationErrors).toBeTruthy();
+          expect(Object.keys(validationErrors || []).length).toBe(
             validationErrorsLen
           );
         });
@@ -405,15 +471,23 @@ describe("should fail", () => {
 
         const authInstance = AuthMock.Auth(_authObjInstance);
 
+        let isValid: boolean = false;
+        beforeAll(async () => {
+          await authInstance.hashPassword();
+          isValid = authInstance.validate();
+        });
+
         test("validate() should be false ", async () => {
-          await validateShouldBeFalse(expect, authInstance);
+          expect(isValid).toBe(false);
         });
 
         test("should have validationErrors length of 1", () => {
           const validationErrorsLen = 1;
-          shouldHaveValidationErrorsWithSpecificLength(
-            expect,
-            authInstance,
+
+          const validationErrors = authInstance.errors();
+
+          expect(validationErrors).toBeTruthy();
+          expect(Object.keys(validationErrors || []).length).toBe(
             validationErrorsLen
           );
         });
@@ -425,15 +499,23 @@ describe("should fail", () => {
 
         const authInstance = AuthMock.Auth(_authObjInstance);
 
+        let isValid: boolean = false;
+        beforeAll(async () => {
+          await authInstance.hashPassword();
+          isValid = authInstance.validate();
+        });
+
         test("validate() should be false ", async () => {
-          await validateShouldBeFalse(expect, authInstance);
+          expect(isValid).toBe(false);
         });
 
         test("should have validationErrors length of 1", () => {
           const validationErrorsLen = 1;
-          shouldHaveValidationErrorsWithSpecificLength(
-            expect,
-            authInstance,
+
+          const validationErrors = authInstance.errors();
+
+          expect(validationErrors).toBeTruthy();
+          expect(Object.keys(validationErrors || []).length).toBe(
             validationErrorsLen
           );
         });
@@ -445,19 +527,256 @@ describe("should fail", () => {
 
         const authInstance = AuthMock.Auth(_authObjInstance);
 
+        let isValid: boolean = false;
+        beforeAll(async () => {
+          await authInstance.hashPassword();
+          isValid = authInstance.validate();
+        });
+
         test("validate() should be false ", async () => {
-          await validateShouldBeFalse(expect, authInstance);
+          expect(isValid).toBe(false);
         });
 
         test("should have validationErrors length of 1", () => {
           const validationErrorsLen = 1;
-          shouldHaveValidationErrorsWithSpecificLength(
-            expect,
-            authInstance,
+
+          const validationErrors = authInstance.errors();
+
+          expect(validationErrors).toBeTruthy();
+          expect(Object.keys(validationErrors || []).length).toBe(
             validationErrorsLen
           );
         });
       });
+    });
+
+    describe('invalid "email" value', () => {
+      const _authObjInstance = Object.assign({}, authObjInstance);
+
+      describe('undefined "email"', () => {
+        // @ts-ignore
+        _authObjInstance.email = undefined;
+
+        const authInstance = AuthMock.Auth(_authObjInstance);
+
+        let isValid: boolean = false;
+        beforeAll(async () => {
+          await authInstance.hashPassword();
+          isValid = authInstance.validate();
+        });
+
+        test("validate() should be false ", async () => {
+          expect(isValid).toBe(false);
+        });
+
+        test("should have validationErrors length of 1", () => {
+          const validationErrorsLen = 1;
+
+          const validationErrors = authInstance.errors();
+
+          expect(validationErrors).toBeTruthy();
+          expect(Object.keys(validationErrors || []).length).toBe(
+            validationErrorsLen
+          );
+        });
+      });
+
+      describe('null "email"', () => {
+        // @ts-ignore
+        _authObjInstance.email = null;
+
+        const authInstance = AuthMock.Auth(_authObjInstance);
+
+        let isValid: boolean = false;
+        beforeAll(async () => {
+          await authInstance.hashPassword();
+          isValid = authInstance.validate();
+        });
+
+        test("validate() should be false ", async () => {
+          expect(isValid).toBe(false);
+        });
+
+        test("should have validationErrors length of 1", () => {
+          const validationErrorsLen = 1;
+
+          const validationErrors = authInstance.errors();
+
+          expect(validationErrors).toBeTruthy();
+          expect(Object.keys(validationErrors || []).length).toBe(
+            validationErrorsLen
+          );
+        });
+      });
+
+      describe('empty string ("") "email"', () => {
+        // @ts-ignore
+        _authObjInstance.email = "";
+
+        const authInstance = AuthMock.Auth(_authObjInstance);
+
+        let isValid: boolean = false;
+        beforeAll(async () => {
+          await authInstance.hashPassword();
+          isValid = authInstance.validate();
+        });
+
+        test("validate() should be false ", async () => {
+          expect(isValid).toBe(false);
+        });
+
+        test("should have validationErrors length of 1", () => {
+          const validationErrorsLen = 1;
+
+          const validationErrors = authInstance.errors();
+
+          expect(validationErrors).toBeTruthy();
+          expect(Object.keys(validationErrors || []).length).toBe(
+            validationErrorsLen
+          );
+        });
+      });
+
+      describe('literal object ({}) "email"', () => {
+        // @ts-ignore
+        _authObjInstance.email = {};
+
+        const authInstance = AuthMock.Auth(_authObjInstance);
+
+        let isValid: boolean = false;
+        beforeAll(async () => {
+          await authInstance.hashPassword();
+          isValid = authInstance.validate();
+        });
+
+        test("validate() should be false ", async () => {
+          expect(isValid).toBe(false);
+        });
+
+        test("should have validationErrors length of 1", () => {
+          const validationErrorsLen = 1;
+
+          const validationErrors = authInstance.errors();
+
+          expect(validationErrors).toBeTruthy();
+          expect(Object.keys(validationErrors || []).length).toBe(
+            validationErrorsLen
+          );
+        });
+      });
+
+      describe('array ([]) "email"', () => {
+        // @ts-ignore
+        _authObjInstance.email = [];
+
+        const authInstance = AuthMock.Auth(_authObjInstance);
+
+        let isValid: boolean = false;
+        beforeAll(async () => {
+          await authInstance.hashPassword();
+          isValid = authInstance.validate();
+        });
+
+        test("validate() should be false ", async () => {
+          expect(isValid).toBe(false);
+        });
+
+        test("should have validationErrors length of 1", () => {
+          const validationErrorsLen = 1;
+
+          const validationErrors = authInstance.errors();
+
+          expect(validationErrors).toBeTruthy();
+          expect(Object.keys(validationErrors || []).length).toBe(
+            validationErrorsLen
+          );
+        });
+      });
+
+      describe('Invalid "email" format "mike"', () => {
+        // @ts-ignore
+        _authObjInstance.email = 'mike';
+
+        const authInstance = AuthMock.Auth(_authObjInstance);
+
+        let isValid: boolean = false;
+        beforeAll(async () => {
+          await authInstance.hashPassword();
+          isValid = authInstance.validate();
+        });
+
+        test("validate() should be false ", async () => {
+          expect(isValid).toBe(false);
+        });
+
+        test("should have validationErrors length of 1", () => {
+          const validationErrorsLen = 1;
+
+          const validationErrors = authInstance.errors();
+
+          expect(validationErrors).toBeTruthy();
+          expect(Object.keys(validationErrors || []).length).toBe(
+            validationErrorsLen
+          );
+        });
+      });
+
+      describe('Invalid "email" format "mike.es"', () => {
+        // @ts-ignore
+        _authObjInstance.email = 'mike.es';
+
+        const authInstance = AuthMock.Auth(_authObjInstance);
+
+        let isValid: boolean = false;
+        beforeAll(async () => {
+          await authInstance.hashPassword();
+          isValid = authInstance.validate();
+        });
+
+        test("validate() should be false ", async () => {
+          expect(isValid).toBe(false);
+        });
+
+        test("should have validationErrors length of 1", () => {
+          const validationErrorsLen = 1;
+
+          const validationErrors = authInstance.errors();
+
+          expect(validationErrors).toBeTruthy();
+          expect(Object.keys(validationErrors || []).length).toBe(
+            validationErrorsLen
+          );
+        });
+      });
+
+      describe('Invalid "email" format "something#domain.com"', () => {
+        // @ts-ignore
+        _authObjInstance.email = 'something#domain.com';
+
+        const authInstance = AuthMock.Auth(_authObjInstance);
+
+        let isValid: boolean = false;
+        beforeAll(async () => {
+          await authInstance.hashPassword();
+          isValid = authInstance.validate();
+        });
+
+        test("validate() should be false ", async () => {
+          expect(isValid).toBe(false);
+        });
+
+        test("should have validationErrors length of 1", () => {
+          const validationErrorsLen = 1;
+
+          const validationErrors = authInstance.errors();
+
+          expect(validationErrors).toBeTruthy();
+          expect(Object.keys(validationErrors || []).length).toBe(
+            validationErrorsLen
+          );
+        });
+      });
+
     });
   });
 });

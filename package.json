@@ -37,6 +37,7 @@
     "eslint-plugin-node": "11",
     "eslint-plugin-promise": "4",
     "eslint-plugin-standard": "4",
+    "isemail": "^3.2.0",
     "prettier": "^2.0.5",
     "source-map-support": "^0.5.16",
     "uuid": "^8.0.0"

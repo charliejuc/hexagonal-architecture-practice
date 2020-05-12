@@ -1,13 +1,11 @@
-import { AuthObject } from "../interfaces/auth-object";
+import { EmailValidator } from "@/auth/infraestructure/auth/lib/email-validator";
 import { AuthPasswordHashingRequired } from "../exceptions/auth-password-hashing-required";
-
-type ErrorsObject = {
-  [key: string]: string;
-};
+import { AuthObject } from "../interfaces/auth-object";
+import { ErrorsObject } from "../types/errors-object";
 
 export class AuthValidator {
   [key: string]: any;
-  private _errors: null | { [key: string]: string } = null;
+  private _errors: null | ErrorsObject = null;
   private requiredFields: [string, Function][] = [
     ["id", String],
     ["username", String],
@@ -15,6 +13,11 @@ export class AuthValidator {
     ["password", String],
   ];
   private usernameRegexp: RegExp = /[^a-z^A-Z^0-9^\.^_]/;
+  private emailValidator: EmailValidator;
+
+  constructor(emailValidator: EmailValidator) {
+    this.emailValidator = emailValidator;
+  }
 
   validate(authObj: AuthObject) {
     if (authObj.password === authObj.plainPassword) {
@@ -81,6 +84,29 @@ export class AuthValidator {
       errors[
         field
       ] = `'${field}' contains invalid characters. Allowed characters: letters, numbers, _ and .`;
+    }
+  }
+
+  private validateEmail(
+    value: string,
+    field: string,
+    type: Function,
+    errors: ErrorsObject
+  ) {
+    this.baseValidateField(value, field, type, errors);
+
+    const hasErrors = ! Object.keys(errors).length
+
+    if ( hasErrors && ! this.emailValidator.validate(value, field) ) {
+      const error = this.emailValidator.error()
+
+      if ( ! error ) {
+        return
+      }
+
+      errors[
+        field
+      ] = error;
     }
   }
 }
