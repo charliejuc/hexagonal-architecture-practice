@@ -13,6 +13,8 @@ export class AuthValidator {
     ["password", String],
   ];
   private usernameRegexp: RegExp = /[^a-z^A-Z^0-9^\.^_]/;
+  private minPasswordLength: number = 10;
+  private maxPasswordLength: number = 200;
   private emailValidator: EmailValidator;
 
   constructor(emailValidator: EmailValidator) {
@@ -27,7 +29,7 @@ export class AuthValidator {
     const errors: ErrorsObject = {};
 
     for (let [field, type] of this.requiredFields) {
-      this.validateField(authObj[field], field, type, errors);
+      this.validateField(authObj[field], field, type, errors, authObj);
     }
 
     const isValid = !Boolean(Object.keys(errors).length);
@@ -62,13 +64,14 @@ export class AuthValidator {
     value: string,
     field: string,
     type: Function,
-    errors: ErrorsObject
+    errors: ErrorsObject,
+    authObject: AuthObject
   ) {
     const fieldUpperFirst = `${field[0].toUpperCase()}${field.slice(1)}`;
     const validateFieldMethod = `validate${fieldUpperFirst}`;
 
     this[validateFieldMethod]
-      ? this[validateFieldMethod](value, field, type, errors)
+      ? this[validateFieldMethod](value, field, type, errors, authObject)
       : this.baseValidateField(value, field, type, errors);
   }
 
@@ -95,18 +98,57 @@ export class AuthValidator {
   ) {
     this.baseValidateField(value, field, type, errors);
 
-    const hasErrors = ! Object.keys(errors).length
+    const hasErrors = Boolean(Object.keys(errors).length);
 
-    if ( hasErrors && ! this.emailValidator.validate(value, field) ) {
-      const error = this.emailValidator.error()
+    if (hasErrors) {
+      return;
+    }
 
-      if ( ! error ) {
-        return
+    if (!this.emailValidator.validate(value, field)) {
+      const error = this.emailValidator.error();
+
+      if (!error) {
+        return;
       }
 
-      errors[
-        field
-      ] = error;
+      errors[field] = error;
     }
+  }
+
+  private validatePassword(
+    value: string,
+    field: string,
+    type: Function,
+    errors: ErrorsObject,
+    authObject: AuthObject
+  ) {
+    const plainPassword = authObject.plainPassword || "";
+
+    const hasErrors = (): boolean => Boolean(Object.keys(errors).length);
+
+    this.baseValidateField(plainPassword, field, type, errors);
+
+    if (hasErrors()) {
+      return;
+    }
+
+    this.baseValidateField(value, field, type, errors);
+
+    if (hasErrors()) {
+      return;
+    }
+
+    const plainPasswordLen = plainPassword ? plainPassword.length : 0;
+
+    if (
+      plainPasswordLen >= this.minPasswordLength &&
+      plainPasswordLen <= this.maxPasswordLength
+    ) {
+      return;
+    }
+
+    const error = `"${field}" field should be more than ${this.minPasswordLength} characters long and less than ${this.maxPasswordLength}`;
+
+    errors[field] = error;
   }
 }

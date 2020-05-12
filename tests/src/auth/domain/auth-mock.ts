@@ -8,6 +8,8 @@ import { AuthGeneratorFaker as AuthGenerator } from "./generator/auth-generator-
 
 export class AuthMock {
   public static authFields: string[] = ["id", "username", "email", "password"];
+  public static minPasswordLength: number = 10;
+  public static maxPasswordLength: number = 200;
 
   public static Auth(authObjInstance: AuthObject) {
     return new Auth(

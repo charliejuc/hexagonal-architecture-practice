@@ -16,23 +16,34 @@ describe("should create valid Auth instance", () => {
   const authObjInstance = authGenerator.getInstance();
 
   const authInstance = AuthMock.Auth(authObjInstance);
+  const authInstancePlainPassword = authInstance.password;
+
+  let isValid: boolean = false;
+  let validationError: Error | null = null;
+  let passwordHashError: Error | null = null;
+  beforeAll(async () => {
+    try {
+      await authInstance.hashPassword();
+    } catch (e) {
+      passwordHashError = e;
+    }
+
+    try {
+      isValid = authInstance.validate();
+    } catch (e) {
+      validationError = e;
+    }
+  });
 
   test("should have required properties", () => {
     expect(authObjInstance.id).toBe(authInstance.id);
     expect(authObjInstance.username).toBe(authInstance.username);
     expect(authObjInstance.email).toBe(authInstance.email);
-    expect(authObjInstance.password).toBe(authInstance.password);
+    expect(authObjInstance.password).toBe(authInstancePlainPassword);
   });
 
   test("should hash password", async () => {
-    let err;
-    try {
-      await authInstance.hashPassword();
-    } catch (e) {
-      err = e;
-    }
-
-    expect(err).toBeFalsy();
+    expect(passwordHashError).toBeFalsy();
   });
 
   test("should verify password hash successfully", async () => {
@@ -52,15 +63,7 @@ describe("should create valid Auth instance", () => {
   test("should validate instance fields successfully", () => {
     expect(authInstance.validate).toBeTruthy();
 
-    let isValid;
-    let err;
-    try {
-      isValid = authInstance.validate();
-    } catch (e) {
-      err = e;
-    }
-
-    expect(err).toBeFalsy();
+    expect(validationError).toBeFalsy();
     expect(isValid).toBe(true);
   });
 });

@@ -13,6 +13,7 @@
     "dev": "npm-run-all build --parallel tsc:watch nodemon",
     "lint": "npm-run-all format eslint",
     "eslint": "eslint --fix --ext .js,.ts ./dist",
+    "jest": "jest",
     "jest:run": "jest --testPathIgnorePatterns dist/",
     "jest:watch": "jest tests --testPathIgnorePatterns dist/ --watch",
     "test": "npm-run-all lint --parallel jest:run",

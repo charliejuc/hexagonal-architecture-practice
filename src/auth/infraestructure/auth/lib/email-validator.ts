@@ -7,11 +7,11 @@ export class EmailValidator implements PropertyValidator {
   public validate(email: string, field: string) {
     const isValidEmail = emailValidate(email);
 
-    if ( ! isValidEmail ) {
-        this._error = `"${field}" field has invalid email format (${email})`
+    if (!isValidEmail) {
+      this._error = `"${field}" field has invalid email format (${email})`;
     }
 
-    return isValidEmail
+    return isValidEmail;
   }
 
   public error() {
