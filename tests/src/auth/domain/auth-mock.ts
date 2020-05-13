@@ -1,10 +1,10 @@
 import { Auth } from "@/auth/domain/auth";
 import { AuthObject } from "@/auth/domain/interfaces/auth-object";
-import { ArgonPaswordHasher as PaswordHasher } from "@/auth/domain/password-hashers/argon-password-hasher";
-import { ArgonPaswordVerifier as PaswordVerifier } from "@/auth/domain/password-hashers/argon-password-verifier";
-import { AuthValidator } from "@/auth/domain/validators/auth-validator";
 import { EmailValidator } from "@/auth/domain/lib/email-validator";
-import { AuthCreateMemoryRepository } from "@/auth/infraestructure/repositories/auth-create-memory-repository";
+import { ArgonPaswordHasher as PaswordHasher } from "@/auth/domain/lib/password-hashers/argon-password-hasher";
+import { ArgonPaswordVerifier as PaswordVerifier } from "@/auth/domain/lib/password-hashers/argon-password-verifier";
+import { AuthCreateMemoryRepository } from "@/auth/domain/repositories/auth-create-memory-repository";
+import { AuthValidator } from "@/auth/domain/validators/auth-validator";
 import { AuthGeneratorFaker as AuthGenerator } from "./generator/auth-generator-faker";
 
 export class AuthMock {
