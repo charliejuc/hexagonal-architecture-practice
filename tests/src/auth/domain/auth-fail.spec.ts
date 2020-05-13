@@ -1,13 +1,15 @@
 import { AuthPasswordHashingRequired } from "@/auth/domain/exceptions/auth-password-hashing-required";
-import { AuthMock } from "./auth-mock";
+import { AuthMockDomain } from "./auth-mock-domain";
+import { Auth } from "@/auth/domain/auth";
+import { AuthInvalidConstructorObject } from "@/auth/domain/exceptions/auth-invalid-constructor-object";
 
-const authGenerator = AuthMock.AuthGenerator();
+const authGenerator = AuthMockDomain.AuthGenerator();
 
 test("creating Auth instance - empty object", async () => {
   const authObjInstance = {};
 
   // @ts-ignore
-  const authInstance = AuthMock.Auth(authObjInstance);
+  const authInstance = AuthMockDomain.Auth(authObjInstance);
 
   expect(authInstance.id).toBeFalsy();
   expect(authInstance.username).toBeFalsy();
@@ -26,8 +28,98 @@ test("creating Auth instance - empty object", async () => {
   expect(() => authInstance.validate()).toThrow();
 });
 
+test("creating Auth instance - undefined", async () => {
+  const authObjInstance = undefined;
+  let authInstance: Auth | { [key: string]: any } = {};
+
+  let err: Error | null = null;
+  try {
+    // @ts-ignore
+    authInstance = AuthMockDomain.Auth(authObjInstance);
+  } catch (e) {
+    err = e;
+  }
+
+  expect(err).toBeInstanceOf(AuthInvalidConstructorObject);
+
+  expect(authInstance.id).toBeFalsy();
+  expect(authInstance.username).toBeFalsy();
+  expect(authInstance.email).toBeFalsy();
+  expect(authInstance.password).toBeFalsy();
+
+  try {
+    await authInstance.hashPassword();
+  } catch (e) {
+    err = e;
+  }
+
+  expect(err).toBeTruthy();
+
+  expect(() => authInstance.validate()).toThrow();
+});
+
+test("creating Auth instance - null", async () => {
+  const authObjInstance = null;
+  let authInstance: Auth | { [key: string]: any } = {};
+
+  let err: Error | null = null;
+  try {
+    // @ts-ignore
+    authInstance = AuthMockDomain.Auth(authObjInstance);
+  } catch (e) {
+    err = e;
+  }
+
+  expect(err).toBeInstanceOf(AuthInvalidConstructorObject);
+
+  expect(authInstance.id).toBeFalsy();
+  expect(authInstance.username).toBeFalsy();
+  expect(authInstance.email).toBeFalsy();
+  expect(authInstance.password).toBeFalsy();
+
+  try {
+    await authInstance.hashPassword();
+  } catch (e) {
+    err = e;
+  }
+
+  expect(err).toBeTruthy();
+
+  expect(() => authInstance.validate()).toThrow();
+});
+
+test("creating Auth instance - Array ([])", async () => {
+  const authObjInstance: [] = [];
+  let authInstance: Auth | { [key: string]: any } = {};
+
+  let err: Error | null = null;
+  try {
+    // @ts-ignore
+    authInstance = AuthMockDomain.Auth(authObjInstance);
+  } catch (e) {
+    err = e;
+  }
+
+  expect(err).toBeFalsy();
+
+  expect(authInstance.id).toBeFalsy();
+  expect(authInstance.username).toBeFalsy();
+  expect(authInstance.email).toBeFalsy();
+  expect(authInstance.password).toBeFalsy();
+
+  try {
+    await authInstance.hashPassword();
+  } catch (e) {
+    err = e;
+  }
+
+  expect(err).toBeTruthy();
+
+  expect(() => authInstance.validate()).toThrow();
+});
+
 describe("validate - missing field", () => {
-  const authFields = AuthMock.authFields;
+  const authFields = AuthMockDomain.authFields;
 
   for (let field of authFields) {
     if (field === "password") {
@@ -39,7 +131,7 @@ describe("validate - missing field", () => {
 
       delete authObjInstance[field];
 
-      const authInstance = AuthMock.Auth(authObjInstance);
+      const authInstance = AuthMockDomain.Auth(authObjInstance);
 
       let isValid: boolean = false;
       let err: Error | null = null;
@@ -74,7 +166,7 @@ describe("validate - missing field", () => {
 
     delete authObjInstance["password"];
 
-    const authInstance = AuthMock.Auth(authObjInstance);
+    const authInstance = AuthMockDomain.Auth(authObjInstance);
 
     let isValid: boolean = false;
     let validationError: Error | null = null;

@@ -1,6 +1,6 @@
-import { AuthMock } from "./auth-mock";
+import { AuthMockDomain } from "./auth-mock-domain";
 
-const authGenerator = AuthMock.AuthGenerator();
+const authGenerator = AuthMockDomain.AuthGenerator();
 const authObjInstance = authGenerator.getInstance();
 
 describe('invalid "id" value', () => {
@@ -10,7 +10,7 @@ describe('invalid "id" value', () => {
     // @ts-ignore
     _authObjInstance.id = undefined;
 
-    const authInstance = AuthMock.Auth(_authObjInstance);
+    const authInstance = AuthMockDomain.Auth(_authObjInstance);
 
     let isValid: boolean = false;
     beforeAll(async () => {
@@ -38,7 +38,7 @@ describe('invalid "id" value', () => {
     // @ts-ignore
     _authObjInstance.id = null;
 
-    const authInstance = AuthMock.Auth(_authObjInstance);
+    const authInstance = AuthMockDomain.Auth(_authObjInstance);
 
     let isValid: boolean = false;
     beforeAll(async () => {
@@ -66,7 +66,7 @@ describe('invalid "id" value', () => {
     // @ts-ignore
     _authObjInstance.id = "";
 
-    const authInstance = AuthMock.Auth(_authObjInstance);
+    const authInstance = AuthMockDomain.Auth(_authObjInstance);
 
     let isValid: boolean = false;
     beforeAll(async () => {
@@ -94,7 +94,7 @@ describe('invalid "id" value', () => {
     // @ts-ignore
     _authObjInstance.id = {};
 
-    const authInstance = AuthMock.Auth(_authObjInstance);
+    const authInstance = AuthMockDomain.Auth(_authObjInstance);
 
     let isValid: boolean = false;
     beforeAll(async () => {
@@ -122,7 +122,7 @@ describe('invalid "id" value', () => {
     // @ts-ignore
     _authObjInstance.id = [];
 
-    const authInstance = AuthMock.Auth(_authObjInstance);
+    const authInstance = AuthMockDomain.Auth(_authObjInstance);
 
     let isValid: boolean = false;
     beforeAll(async () => {

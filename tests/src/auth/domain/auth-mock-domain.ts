@@ -7,7 +7,7 @@ import { AuthCreateMemoryRepository } from "@/auth/domain/repositories/auth-crea
 import { AuthValidator } from "@/auth/domain/validators/auth-validator";
 import { AuthGeneratorFaker as AuthGenerator } from "./generator/auth-generator-faker";
 
-export class AuthMock {
+export class AuthMockDomain {
   public static authFields: string[] = ["id", "username", "email", "password"];
   public static minPasswordLength: number = 10;
   public static maxPasswordLength: number = 200;

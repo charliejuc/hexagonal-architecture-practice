@@ -1,6 +1,6 @@
-import { AuthMock } from "./auth-mock";
+import { AuthMockDomain } from "./auth-mock-domain";
 
-const authGenerator = AuthMock.AuthGenerator();
+const authGenerator = AuthMockDomain.AuthGenerator();
 const authObjInstance = authGenerator.getInstance();
 
 describe('invalid "username" value', () => {
@@ -10,7 +10,7 @@ describe('invalid "username" value', () => {
     // @ts-ignore
     _authObjInstance.username = undefined;
 
-    const authInstance = AuthMock.Auth(_authObjInstance);
+    const authInstance = AuthMockDomain.Auth(_authObjInstance);
 
     let isValid: boolean = false;
     beforeAll(async () => {
@@ -38,7 +38,7 @@ describe('invalid "username" value', () => {
     // @ts-ignore
     _authObjInstance.username = null;
 
-    const authInstance = AuthMock.Auth(_authObjInstance);
+    const authInstance = AuthMockDomain.Auth(_authObjInstance);
 
     let isValid: boolean = false;
     beforeAll(async () => {
@@ -66,7 +66,7 @@ describe('invalid "username" value', () => {
     // @ts-ignore
     _authObjInstance.username = "";
 
-    const authInstance = AuthMock.Auth(_authObjInstance);
+    const authInstance = AuthMockDomain.Auth(_authObjInstance);
 
     let isValid: boolean = false;
     beforeAll(async () => {
@@ -94,7 +94,7 @@ describe('invalid "username" value', () => {
     // @ts-ignore
     _authObjInstance.username = {};
 
-    const authInstance = AuthMock.Auth(_authObjInstance);
+    const authInstance = AuthMockDomain.Auth(_authObjInstance);
 
     let isValid: boolean = false;
     beforeAll(async () => {
@@ -122,7 +122,7 @@ describe('invalid "username" value', () => {
     // @ts-ignore
     _authObjInstance.username = [];
 
-    const authInstance = AuthMock.Auth(_authObjInstance);
+    const authInstance = AuthMockDomain.Auth(_authObjInstance);
 
     let isValid: boolean = false;
     beforeAll(async () => {
@@ -150,7 +150,7 @@ describe('invalid "username" value', () => {
     // @ts-ignore
     _authObjInstance.username = "Mike Graham";
 
-    const authInstance = AuthMock.Auth(_authObjInstance);
+    const authInstance = AuthMockDomain.Auth(_authObjInstance);
 
     let isValid: boolean = false;
     beforeAll(async () => {
@@ -178,7 +178,7 @@ describe('invalid "username" value', () => {
     // @ts-ignore
     _authObjInstance.username = "Julián_Fernández";
 
-    const authInstance = AuthMock.Auth(_authObjInstance);
+    const authInstance = AuthMockDomain.Auth(_authObjInstance);
 
     let isValid: boolean = false;
     beforeAll(async () => {
@@ -206,7 +206,7 @@ describe('invalid "username" value', () => {
     // @ts-ignore
     _authObjInstance.username = "mike-spark12";
 
-    const authInstance = AuthMock.Auth(_authObjInstance);
+    const authInstance = AuthMockDomain.Auth(_authObjInstance);
 
     let isValid: boolean = false;
     beforeAll(async () => {

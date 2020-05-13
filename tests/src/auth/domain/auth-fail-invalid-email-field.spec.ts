@@ -1,6 +1,6 @@
-import { AuthMock } from "./auth-mock";
+import { AuthMockDomain } from "./auth-mock-domain";
 
-const authGenerator = AuthMock.AuthGenerator();
+const authGenerator = AuthMockDomain.AuthGenerator();
 const authObjInstance = authGenerator.getInstance();
 
 describe('invalid "email" value', () => {
@@ -10,7 +10,7 @@ describe('invalid "email" value', () => {
     // @ts-ignore
     _authObjInstance.email = undefined;
 
-    const authInstance = AuthMock.Auth(_authObjInstance);
+    const authInstance = AuthMockDomain.Auth(_authObjInstance);
 
     let isValid: boolean = false;
     beforeAll(async () => {
@@ -38,7 +38,7 @@ describe('invalid "email" value', () => {
     // @ts-ignore
     _authObjInstance.email = null;
 
-    const authInstance = AuthMock.Auth(_authObjInstance);
+    const authInstance = AuthMockDomain.Auth(_authObjInstance);
 
     let isValid: boolean = false;
     beforeAll(async () => {
@@ -66,7 +66,7 @@ describe('invalid "email" value', () => {
     // @ts-ignore
     _authObjInstance.email = "";
 
-    const authInstance = AuthMock.Auth(_authObjInstance);
+    const authInstance = AuthMockDomain.Auth(_authObjInstance);
 
     let isValid: boolean = false;
     beforeAll(async () => {
@@ -94,7 +94,7 @@ describe('invalid "email" value', () => {
     // @ts-ignore
     _authObjInstance.email = {};
 
-    const authInstance = AuthMock.Auth(_authObjInstance);
+    const authInstance = AuthMockDomain.Auth(_authObjInstance);
 
     let isValid: boolean = false;
     beforeAll(async () => {
@@ -122,7 +122,7 @@ describe('invalid "email" value', () => {
     // @ts-ignore
     _authObjInstance.email = [];
 
-    const authInstance = AuthMock.Auth(_authObjInstance);
+    const authInstance = AuthMockDomain.Auth(_authObjInstance);
 
     let isValid: boolean = false;
     beforeAll(async () => {
@@ -150,7 +150,7 @@ describe('invalid "email" value', () => {
     // @ts-ignore
     _authObjInstance.email = "mike";
 
-    const authInstance = AuthMock.Auth(_authObjInstance);
+    const authInstance = AuthMockDomain.Auth(_authObjInstance);
 
     let isValid: boolean = false;
     beforeAll(async () => {
@@ -178,7 +178,7 @@ describe('invalid "email" value', () => {
     // @ts-ignore
     _authObjInstance.email = "mike.es";
 
-    const authInstance = AuthMock.Auth(_authObjInstance);
+    const authInstance = AuthMockDomain.Auth(_authObjInstance);
 
     let isValid: boolean = false;
     beforeAll(async () => {
@@ -206,7 +206,7 @@ describe('invalid "email" value', () => {
     // @ts-ignore
     _authObjInstance.email = "something#domain.com";
 
-    const authInstance = AuthMock.Auth(_authObjInstance);
+    const authInstance = AuthMockDomain.Auth(_authObjInstance);
 
     let isValid: boolean = false;
     beforeAll(async () => {

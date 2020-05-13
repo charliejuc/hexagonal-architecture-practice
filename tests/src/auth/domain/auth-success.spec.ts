@@ -1,21 +1,23 @@
 import { Auth } from "@/auth/domain/auth";
-import { AuthMock } from "./auth-mock";
+import { AuthMockDomain } from "./auth-mock-domain";
 
-const passwordVerifier = AuthMock.PasswordVerifier();
-const authGenerator = AuthMock.AuthGenerator();
+const passwordVerifier = AuthMockDomain.PasswordVerifier();
+const authGenerator = AuthMockDomain.AuthGenerator();
 
 test("should exist auth object", () => {
   expect(Auth).toBeTruthy();
 });
 
 test("should match AuthGenerator and AuthMock authFields", () => {
-  expect(Object.keys(authGenerator.getInstance())).toEqual(AuthMock.authFields);
+  expect(Object.keys(authGenerator.getInstance())).toEqual(
+    AuthMockDomain.authFields
+  );
 });
 
 describe("should create valid Auth instance", () => {
   const authObjInstance = authGenerator.getInstance();
 
-  const authInstance = AuthMock.Auth(authObjInstance);
+  const authInstance = AuthMockDomain.Auth(authObjInstance);
   const authInstancePlainPassword = authInstance.password;
 
   let isValid: boolean = false;

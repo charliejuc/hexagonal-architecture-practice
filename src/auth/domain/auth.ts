@@ -1,6 +1,7 @@
 import { AuthObject } from "./interfaces/auth-object";
 import { PasswordHasher } from "./interfaces/password-hasher";
 import { AuthValidator } from "./validators/auth-validator";
+import { AuthInvalidConstructorObject } from "./exceptions/auth-invalid-constructor-object";
 
 export class Auth {
   private _username: string;
@@ -19,10 +20,18 @@ export class Auth {
     this.passwordHasher = passwordHasher;
     this.validator = validator;
 
-    this._id = authObj.id;
-    this._username = authObj.username;
-    this._email = authObj.email;
-    this.password = authObj.password;
+    try {
+      this._id = authObj.id;
+      this._username = authObj.username;
+      this._email = authObj.email;
+      this.password = authObj.password;
+    } catch (err) {
+      if (err instanceof TypeError) {
+        throw new AuthInvalidConstructorObject();
+      }
+
+      throw err;
+    }
   }
 
   public async hashPassword() {

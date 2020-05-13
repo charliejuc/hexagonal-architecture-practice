@@ -1,7 +1,7 @@
-import { AuthMock } from "./auth-mock";
+import { AuthMockDomain } from "./auth-mock-domain";
 import { ErrorsObject } from "@/auth/domain/types/errors-object";
 
-const authGenerator = AuthMock.AuthGenerator();
+const authGenerator = AuthMockDomain.AuthGenerator();
 const authObjInstance = authGenerator.getInstance();
 
 describe('invalid "password" value', () => {
@@ -11,23 +11,17 @@ describe('invalid "password" value', () => {
     // @ts-ignore
     _authObjInstance.password = undefined;
 
-    const authInstance = AuthMock.Auth(_authObjInstance);
+    const authInstance = AuthMockDomain.Auth(_authObjInstance);
 
     let isValid: boolean = false;
-    let passwordHashError: null | Error = null;
-    let validationError: null | Error = null;
     beforeAll(async () => {
       try {
         await authInstance.hashPassword();
-      } catch (e) {
-        passwordHashError = e;
-      }
+      } catch (e) {}
 
       try {
         isValid = authInstance.validate();
-      } catch (e) {
-        validationError = e;
-      }
+      } catch (e) {}
     });
 
     test("validate() should be false ", async () => {
@@ -45,23 +39,17 @@ describe('invalid "password" value', () => {
     // @ts-ignore
     _authObjInstance.password = null;
 
-    const authInstance = AuthMock.Auth(_authObjInstance);
+    const authInstance = AuthMockDomain.Auth(_authObjInstance);
 
     let isValid: boolean = false;
-    let passwordHashError: null | Error = null;
-    let validationError: null | Error = null;
     beforeAll(async () => {
       try {
         await authInstance.hashPassword();
-      } catch (e) {
-        passwordHashError = e;
-      }
+      } catch (e) {}
 
       try {
         isValid = authInstance.validate();
-      } catch (e) {
-        validationError = e;
-      }
+      } catch (e) {}
     });
 
     test("validate() should be false ", async () => {
@@ -79,7 +67,7 @@ describe('invalid "password" value', () => {
     // @ts-ignore
     _authObjInstance.password = "";
 
-    const authInstance = AuthMock.Auth(_authObjInstance);
+    const authInstance = AuthMockDomain.Auth(_authObjInstance);
 
     let isValid: boolean = false;
     beforeAll(async () => {
@@ -108,7 +96,7 @@ describe('invalid "password" value', () => {
     // @ts-ignore
     _authObjInstance.password = {};
 
-    const authInstance = AuthMock.Auth(_authObjInstance);
+    const authInstance = AuthMockDomain.Auth(_authObjInstance);
 
     let isValid: boolean = false;
     beforeAll(async () => {
@@ -136,7 +124,7 @@ describe('invalid "password" value', () => {
     // @ts-ignore
     _authObjInstance.password = [];
 
-    const authInstance = AuthMock.Auth(_authObjInstance);
+    const authInstance = AuthMockDomain.Auth(_authObjInstance);
 
     let isValid: boolean = false;
     beforeAll(async () => {
@@ -169,7 +157,7 @@ describe('invalid "password" value', () => {
     // @ts-ignore
     _authObjInstance.password = authObjInstance.password.slice(0, 9);
 
-    const authInstance = AuthMock.Auth(_authObjInstance);
+    const authInstance = AuthMockDomain.Auth(_authObjInstance);
 
     let isValid: boolean = false;
     let validationErrors: null | ErrorsObject;
@@ -197,9 +185,13 @@ describe('invalid "password" value', () => {
       // @ts-ignore
       expect(validationErrors.password).toBeTruthy();
       // @ts-ignore
-      expect(validationErrors.password).toContain(AuthMock.minPasswordLength);
+      expect(validationErrors.password).toContain(
+        AuthMockDomain.minPasswordLength
+      );
       // @ts-ignore
-      expect(validationErrors.password).toContain(AuthMock.maxPasswordLength);
+      expect(validationErrors.password).toContain(
+        AuthMockDomain.maxPasswordLength
+      );
     });
   });
 });
