@@ -111,3 +111,4 @@ temp/
 
 /sheet.*
 .commit
+src/apps/**/*.js
