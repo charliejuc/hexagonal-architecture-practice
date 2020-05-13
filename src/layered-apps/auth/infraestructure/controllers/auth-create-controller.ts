@@ -19,7 +19,7 @@ export class AuthCreateController implements Controller {
         ? authCreateData.toJSON()
         : authCreateData
 
-    if ( response.password ) {
+    if (response.password !== undefined) {
       delete response.password
     }
 
