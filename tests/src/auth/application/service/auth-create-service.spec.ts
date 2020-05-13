@@ -1,4 +1,3 @@
-import { AuthCreateService } from "@/auth/application/service/auth-create-service";
 import { Auth } from "@/auth/domain/auth";
 import { AuthObject } from "@/auth/domain/interfaces/auth-object";
 import { ErrorsObject } from "@/auth/domain/types/errors-object";

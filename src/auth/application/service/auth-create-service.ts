@@ -1,5 +1,5 @@
-import { AuthCreateRepository } from "@/auth/domain/interfaces/repositories/auth-create-repository";
 import { AuthObject } from "@/auth/domain/interfaces/auth-object";
+import { AuthCreateRepository } from "@/auth/domain/interfaces/repositories/auth-create-repository";
 
 export class AuthCreateService {
   private createRepository: AuthCreateRepository;
