@@ -10,8 +10,9 @@ const authCreateService = new AuthCreateService(
 
 export class AuthCreateController implements Controller {
   public async callback (req: Request, res: Response): Promise<void> {
+    const id = uuidv4()
     const reqData = Object.assign({}, req.body, {
-      id: uuidv4()
+      id
     })
     const authCreateData = await authCreateService.create(reqData)
     const response =
@@ -23,7 +24,11 @@ export class AuthCreateController implements Controller {
       delete response.password
     }
 
-    res.status(201)
+    if (response.id === id) {
+      res.status(201)
+    } else {
+      res.status(400)
+    }
 
     res.json(response)
   }
