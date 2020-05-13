@@ -3,7 +3,8 @@ import { AuthObject } from "@/auth/domain/interfaces/auth-object";
 import { ArgonPaswordHasher as PaswordHasher } from "@/auth/domain/password-hashers/argon-password-hasher";
 import { ArgonPaswordVerifier as PaswordVerifier } from "@/auth/domain/password-hashers/argon-password-verifier";
 import { AuthValidator } from "@/auth/domain/validators/auth-validator";
-import { EmailValidator } from "@/auth/infraestructure/lib/email-validator";
+import { EmailValidator } from "@/auth/domain/lib/email-validator";
+import { AuthCreateMemoryRepository } from "@/auth/infraestructure/repositories/auth-create-memory-repository";
 import { AuthGeneratorFaker as AuthGenerator } from "./generator/auth-generator-faker";
 
 export class AuthMock {
@@ -17,6 +18,10 @@ export class AuthMock {
       this.PasswordHasher(),
       this.AuthValidator()
     );
+  }
+
+  public static AuthCreateRepository() {
+    return new AuthCreateMemoryRepository();
   }
 
   public static AuthGenerator() {

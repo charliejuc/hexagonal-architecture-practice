@@ -1,10 +1,9 @@
 import { Auth } from "@/auth/domain/auth";
 import { AuthObject } from "@/auth/domain/interfaces/auth-object";
 import { ErrorsObject } from "@/auth/domain/types/errors-object";
-import { AuthCreateMemoryRepository } from "@/auth/infraestructure/repositories/auth-create-memory-repository";
 import { AuthMock } from "../../domain/auth-mock";
 
-const createMemoryRepository = new AuthCreateMemoryRepository();
+const createRepository = AuthMock.AuthCreateRepository();
 const authGenerator = AuthMock.AuthGenerator();
 
 describe("should create auth entry successfully", () => {
@@ -15,7 +14,7 @@ describe("should create auth entry successfully", () => {
   let authInstanceJSON: AuthObject;
   beforeAll(async () => {
     try {
-      authInstance = await createMemoryRepository.create(authObj);
+      authInstance = await createRepository.create(authObj);
     } catch (e) {
       err = e;
     }
@@ -51,7 +50,7 @@ describe("should fail creating auth entry", () => {
   beforeAll(async () => {
     try {
       // @ts-ignore
-      authInstance = await createMemoryRepository.create(authObj);
+      authInstance = await createRepository.create(authObj);
     } catch (e) {
       err = e;
     }
