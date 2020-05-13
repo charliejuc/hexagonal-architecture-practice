@@ -1,3 +1,5 @@
+import 'module-alias/register';
+
 import express from "express";
 import { setupAuthRouter } from "@/layered-apps/auth/infraestructure/router";
 

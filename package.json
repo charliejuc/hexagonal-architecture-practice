@@ -8,6 +8,9 @@
   "engines": {
     "node": ""
   },
+  "_moduleAliases": {
+    "@": "./dist/src"
+  },
   "scripts": {
     "build": "npm-run-all clean tsc",
     "dev": "npm-run-all build --parallel tsc:watch nodemon",
@@ -22,8 +25,8 @@
     "tsc": "tsc",
     "tsc:watch": "tsc --watch",
     "format": "prettier --write .",
-    "nodemon": "nodemon dist/apps/server.js --watch dist",
-    "start": "node dist/index.js",
+    "nodemon": "nodemon dist/src/apps/server.js --watch dist/src/apps/server.js",
+    "start": "node dist/src/apps/server.js",
     "tsc:watch:sheet": "tsc ./sheet --watch",
     "nodemon:sheet": "nodemon ./sheet.js --watch ./sheet.js",
     "dev:sheet": "npm-run-all --parallel tsc:watch:sheet nodemon:sheet"
@@ -41,6 +44,7 @@
     "eslint-plugin-standard": "4",
     "express": "^4.17.1",
     "isemail": "^3.2.0",
+    "module-alias": "^2.2.2",
     "prettier": "^2.0.5",
     "source-map-support": "^0.5.16",
     "uuid": "^8.0.0"
