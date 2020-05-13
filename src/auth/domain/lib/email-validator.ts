@@ -1,7 +1,6 @@
-import { PropertyValidator } from "@/auth/domain/interfaces/property-validator";
 import { validate as emailValidate } from "isemail";
 
-export class EmailValidator implements PropertyValidator {
+export class EmailValidator {
   private _error: null | string = null;
 
   public validate(email: string, field: string) {
