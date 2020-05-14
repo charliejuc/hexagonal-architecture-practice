@@ -15,5 +15,5 @@ yarn start
 ```
 
 # Slug "/auth/create"
-## POST parameters: username, email and password.
-## RESPONSE: Errors or json parsed Auth.
+### POST parameters: username, email and password.
+### RESPONSE: Errors or json parsed Auth.
