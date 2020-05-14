@@ -1,6 +1,6 @@
 import { AuthPasswordHashingRequired } from '../exceptions/auth-password-hashing-required'
 import { AuthObject } from '../interfaces/auth-object'
-import { ErrorsObject } from '../types/errors-object'
+import { ErrorsObject } from '../interfaces/errors-object'
 import { EmailValidator } from '../lib/email-validator'
 
 export class AuthValidator {
@@ -28,16 +28,16 @@ export class AuthValidator {
     }
 
     const errors: ErrorsObject = {}
+    let isValid: boolean = true
 
     for (const [field, type] of this.requiredFields) {
       const error = this.validateField(authObj[field], field, type, authObj)
 
       if (error !== null) {
+        isValid = false
         errors[field] = error
       }
     }
-
-    const isValid = Object.keys(errors).length === 0
 
     if (!isValid) {
       this._errors = errors

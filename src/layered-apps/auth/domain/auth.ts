@@ -2,7 +2,7 @@ import { AuthObject } from './interfaces/auth-object'
 import { PasswordHasher } from './interfaces/password-hasher'
 import { AuthValidator } from './validators/auth-validator'
 import { AuthInvalidConstructorObject } from './exceptions/auth-invalid-constructor-object'
-import { ErrorsObject } from './types/errors-object'
+import { ErrorsObject } from './interfaces/errors-object'
 
 export class Auth {
   private _username: string

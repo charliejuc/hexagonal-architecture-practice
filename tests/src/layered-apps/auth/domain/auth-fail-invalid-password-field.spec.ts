@@ -1,5 +1,5 @@
 import { AuthMockDomain } from "./auth-mock-domain";
-import { ErrorsObject } from "@/layered-apps/auth/domain/types/errors-object";
+import { ErrorsObject } from "@/layered-apps/auth/domain/interfaces/errors-object";
 
 const authGenerator = AuthMockDomain.AuthGenerator();
 const authObjInstance = authGenerator.getInstance();

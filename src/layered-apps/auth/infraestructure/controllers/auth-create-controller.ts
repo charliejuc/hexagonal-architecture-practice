@@ -24,10 +24,10 @@ export class AuthCreateController implements Controller {
       delete response.password
     }
 
-    if (response.id === id) {
-      res.status(201)
-    } else {
+    if (response.errors !== undefined && response.errors !== null) {
       res.status(400)
+    } else {
+      res.status(201)
     }
 
     res.json(response)

@@ -1,6 +1,6 @@
 import { Auth } from "@/layered-apps/auth/domain/auth";
 import { AuthObject } from "@/layered-apps/auth/domain/interfaces/auth-object";
-import { ErrorsObject } from "@/layered-apps/auth/domain/types/errors-object";
+import { ErrorsObject } from "@/layered-apps/auth/domain/interfaces/errors-object";
 import { AuthMockDomain } from "../../domain/auth-mock-domain";
 import { AuthMockApp } from "../auth-mock-app";
 
@@ -88,7 +88,9 @@ describe("should fail creating auth entry - undefined object", () => {
 
   test("should not throw an exception", () => {
     // @ts-ignore
-    expect(authInstance.unexpectedError).toBeTruthy();
+    expect(authInstance.errors).toBeTruthy();
+    // @ts-ignore
+    expect(authInstance.errors.unexpectedError).toBeTruthy();
   });
 
   test("should have errors", () => {
